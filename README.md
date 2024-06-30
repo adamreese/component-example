@@ -48,7 +48,7 @@ To compose a calculator component with an add operator, run the following:
 
 ```sh
 (cd calculator && cargo component build --release)
-(cd adder && cargo component build --release)
+(cd adder && make build)
 (cd command && cargo component build --release)
 cd ..
 wasm-tools compose calculator/target/wasm32-wasi/release/calculator.wasm -d adder/target/wasm32-wasi/release/adder.wasm -o composed.wasm
