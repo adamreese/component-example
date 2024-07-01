@@ -1,58 +1,19 @@
 # Building a Calculator of Wasm Components
 
-This tutorial walks through how to compose a component to build a Wasm calculator.
-The WIT package for the calculator consists of a world for each mathematical operator
-add an `op` enum that delineates each operator. The following example interface only
-has an `add` operation:
+This repo contains the example from the [component model](https://github.com/bytecodealliance/component-docs/tree/main/component-model/examples/tutorial) documentation. The [adder](adder) component has been refactored to TinyGo.
 
-```wit adder
-package docs:adder@0.1.0;
+## Requirements for building the TinyGo example
 
-
-interface add {
-    add: func(a: u32, b: u32) -> u32;
-}
-
-world adder {
-    export add;
-}
-```
-
-
-```wit calculator
-package docs:calculator@0.1.0;
-
-interface calculate {
-    enum op {
-        add,
-    }
-    eval-expression: func(op: op, x: u32, y: u32) -> u32;
-}
-
-world calculator {
-    export calculate;
-    import docs:adder/add;
-}
-
-world app {
-    import calculate;
-}
-```
-
-
-To expand the exercise to add more components, add another operator world, expand the enum, and modify the `command` component to call it.
+- TinyGo compiled with [wasip2](https://github.com/dgryski/tinygo/tree/dgryski/wasi-preview-2).
+- [wit-bindgen-go](https://github.com/ydnar/wasm-tools-go)
 
 ## Building and running the example
 
 To compose a calculator component with an add operator, run the following:
 
 ```sh
-(cd calculator && cargo component build --release)
-(cd adder && make build)
-(cd command && cargo component build --release)
-cd ..
-wasm-tools compose calculator/target/wasm32-wasi/release/calculator.wasm -d adder/target/wasm32-wasi/release/adder.wasm -o composed.wasm
-wasm-tools compose command/target/wasm32-wasi/release/command.wasm -d composed.wasm -o final.wasm
+make build
+make compose
 ```
 
 Now, run the component with wasmtime:
