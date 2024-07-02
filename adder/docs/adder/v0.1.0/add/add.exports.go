@@ -8,6 +8,6 @@ package add
 var Exports struct {
 	// Add represents the caller-defined, exported function "add".
 	//
-	//	add: func(a: u32, b: u32) -> u32
-	Add func(a uint32, b uint32) (result uint32)
+	//	add: func(a: s32, b: s32) -> s32
+	Add func(a int32, b int32) (result int32)
 }
